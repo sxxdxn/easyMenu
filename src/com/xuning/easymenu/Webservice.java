@@ -1,6 +1,7 @@
 package com.xuning.easymenu;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -223,5 +224,113 @@ public class Webservice {
 		}
 		
 		return returnMessage;
+	}
+	
+	/**
+	 * 获取top10函数
+	 * 传入获取参数，以及要保存top10的vector
+	 * 传出服务器返回值
+	 * */
+	public static String getTop10(int top10Kind,Vector<Integer> top10Cai){
+		
+		String returnMessage;
+		
+		
+		final String METHOD_NAME = "getTop10";
+		String SOAP_ACTION = NAMESPACE + METHOD_NAME;
+		
+		SoapObject detail;
+		
+		SoapObject rpc = new SoapObject(NAMESPACE,METHOD_NAME);
+		//输出rpc
+		Log.i("Top10Kind", "rpc"+rpc);
+		
+		rpc.addProperty("Top10Kind", top10Kind);
+		
+		
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.bodyOut = rpc;
+		envelope.dotNet = true;
+		
+		envelope.setOutputSoapObject(rpc);
+		
+		HttpTransportSE ht = new HttpTransportSE(URL);
+		
+		ht.debug = true;
+		try {
+			
+			ht.call(SOAP_ACTION, envelope);
+			detail = (SoapObject)envelope.getResponse();
+			//具体处理函数在DealWebservice中
+			returnMessage = DealWebservice.dealGetTop10(detail,top10Cai);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "IOException";
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "XmlPullParserException";
+		}
+		
+		return returnMessage;
+		
+	}
+	
+	/**
+	 * 上传用户评分函数
+	 * 返回服务器返回值
+	 * 传入被评菜号，用户类，星级
+	 * */
+	public static String uploadStar(int uploadStarCaiId,int uploadStarCaiStar,UserModel user){
+		
+		String returnMessage;
+		
+		
+		final String METHOD_NAME = "uploadStar";
+		String SOAP_ACTION = NAMESPACE + METHOD_NAME;
+		
+		SoapObject detail;
+		
+		SoapObject rpc = new SoapObject(NAMESPACE,METHOD_NAME);
+		//输出rpc
+		Log.i("uploadStar", "rpc"+rpc);
+		
+		rpc.addProperty("uploadStarCaiId", uploadStarCaiId);
+		rpc.addProperty("uploadStarCaiStar", uploadStarCaiStar);
+		rpc.addProperty("uploadStarUserId",user.getUserId()+"");
+		rpc.addProperty("sessionId",user.getSessionId()+"");
+		
+		
+		
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.bodyOut = rpc;
+		envelope.dotNet = true;
+		
+		envelope.setOutputSoapObject(rpc);
+		
+		HttpTransportSE ht = new HttpTransportSE(URL);
+		
+		ht.debug = true;
+		try {
+			
+			ht.call(SOAP_ACTION, envelope);
+			detail = (SoapObject)envelope.getResponse();
+			//具体处理函数在DealWebservice中
+			returnMessage = DealWebservice.dealUploadStar(detail);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "IOException";
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "XmlPullParserException";
+		}
+		
+		return returnMessage;
+		
 	}
 }

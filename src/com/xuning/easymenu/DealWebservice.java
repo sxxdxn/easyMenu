@@ -1,6 +1,8 @@
 package com.xuning.easymenu;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Vector;
+
 import org.ksoap2.serialization.SoapObject;
 
 import android.util.Log;
@@ -147,6 +149,50 @@ public class DealWebservice {
 			return returnMessage;
 		}else{
 			Log.e("UploadBuyList", "服务器返回UploadBuyList错误");
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}
+		return returnMessage;
+	}
+	
+	/**
+	 * 获取top10
+	 * */
+	public static String dealGetTop10(SoapObject detail,Vector<Integer> top10Cai){
+		String getTop10Success,returnMessage;
+		String[] top10CaiTemp;
+		getTop10Success = detail.getProperty("getTop10Success").toString();
+		if(getTop10Success.equals("true")){
+			top10CaiTemp = detail.getProperty("top10Cai").toString().split(";");
+			for(int i=0;i<top10CaiTemp.length;i++){
+				top10Cai.add(Integer.parseInt(top10CaiTemp[i]));
+			}
+			returnMessage =  detail.getProperty("returnMessage").toString();
+		}else if(getTop10Success.equals("false")){
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}else{
+			Log.e("GetTop10", "服务器返回GetTop10错误");
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}
+		return returnMessage;
+	}
+
+	/**
+	 * 上传星级
+	 * */
+	public static String dealUploadStar(SoapObject detail) {
+		String uploadStarSuccess,returnMessage;
+		uploadStarSuccess = detail.getProperty("uploadStarSuccess").toString();
+		if(uploadStarSuccess.equals("true")){
+			returnMessage = detail.getProperty("returnMessage").toString();
+			
+		}else if(uploadStarSuccess.equals("false")){
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}else{
+			Log.e("GetTop10", "服务器返回GetTop10错误");
 			returnMessage = detail.getProperty("returnMessage").toString();
 			return returnMessage;
 		}
