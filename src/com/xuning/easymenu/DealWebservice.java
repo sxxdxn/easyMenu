@@ -127,4 +127,29 @@ public class DealWebservice {
 		}
 		return returnMessage;
 	}
+	
+	/**
+	 * 创建订单
+	 * */
+	public static String dealUploadBuyList(SoapObject detail,ListModel cailist){
+		String uploadBuyListSuccess,buyListId,buyListTotalPrice,returnMessage;
+		
+		uploadBuyListSuccess = detail.getProperty("uploadBuyListSuccess").toString();
+		if(uploadBuyListSuccess.equals("true")){
+			buyListId = detail.getProperty("buyListId").toString();
+			buyListTotalPrice = detail.getProperty("buyListTotalPrice").toString();
+			returnMessage =  detail.getProperty("returnMessage").toString();
+			cailist.setId(Integer.parseInt(buyListId));
+			cailist.setTotalPrice(Double.parseDouble(buyListTotalPrice));
+			SqlHelper.insertBuyList(cailist);
+		}else if(uploadBuyListSuccess.equals("false")){
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}else{
+			Log.e("UploadBuyList", "服务器返回UploadBuyList错误");
+			returnMessage = detail.getProperty("returnMessage").toString();
+			return returnMessage;
+		}
+		return returnMessage;
+	}
 }

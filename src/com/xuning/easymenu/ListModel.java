@@ -8,7 +8,7 @@ public class ListModel {
 	public Vector<Integer> listVector = new Vector<Integer>();
 	private int id;
 	private int userId;
-	private float totalPrice;
+	private double totalPrice;
 	
 	public void setNum(int num){
 		this.num = num;
@@ -31,10 +31,10 @@ public class ListModel {
 		return userId;
 	}
 	
-	public void setTotalPrice(float totalPrice){
+	public void setTotalPrice(double totalPrice){
 		this.totalPrice = totalPrice;
 	}
-	public float getTotalPrice(){
+	public double getTotalPrice(){
 		return totalPrice;
 	}
 	

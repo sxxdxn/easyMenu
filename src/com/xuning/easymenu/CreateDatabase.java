@@ -17,6 +17,10 @@ public class CreateDatabase {
 				"(list_id integer,user_id integer,"+
 				"cai_id integer,cai_num integer,"+
 				"primary key(list_id,cai_id))",
+				//建表_完成订单
+				"create table if not exists buylist "+
+				"list_id integer primary key,user_id integer,"+
+				"list_price double)",
 				//插入数据
 				"insert into menu values(1001,'香辣里脊',2,'/sdcard/data/easyMenu/cai_1.png',18.00,5,10,'香辣里脊很好吃','null')",
 				"insert into menu values(1002,'香菇油菜',1,'/sdcard/data/easyMenu/cai_2.png',16.00,4.5,10,'香菇油菜很好吃','null')",

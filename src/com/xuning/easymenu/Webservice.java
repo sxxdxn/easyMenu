@@ -166,4 +166,62 @@ public class Webservice {
 		return returnMessage;
 	
 	}
+	
+	/**
+	 * 上传订单函数
+	 * 传入用户和订单类
+	 * 返回服务器返回的值
+	 * */
+	public static String uploadBuyList(UserModel user,ListModel cailist){
+		
+		String returnMessage;
+		String buyCaiId="",buyUserId=user.getUserId()+"",sessionId = user.getSessionId();
+		
+		final String METHOD_NAME = "uploadBuyList";
+		String SOAP_ACTION = NAMESPACE + METHOD_NAME;
+		
+		SoapObject detail;
+		
+		SoapObject rpc = new SoapObject(NAMESPACE,METHOD_NAME);
+		//输出rpc
+		Log.i("uploadBuyList", "rpc"+rpc);
+		
+		for(int i=0;i<cailist.listVector.size();i++){
+			buyCaiId += cailist.listVector.get(i);
+			buyCaiId += ";";
+		}
+		buyCaiId = buyCaiId.substring(0, buyCaiId.length()-1);
+		
+		rpc.addProperty("buyCaiId", buyCaiId);
+		rpc.addProperty("buyUserId", buyUserId);
+		rpc.addProperty("sessionId", sessionId);
+		
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.bodyOut = rpc;
+		envelope.dotNet = true;
+		
+		envelope.setOutputSoapObject(rpc);
+		
+		HttpTransportSE ht = new HttpTransportSE(URL);
+		
+		ht.debug = true;
+		try {
+			
+			ht.call(SOAP_ACTION, envelope);
+			detail = (SoapObject)envelope.getResponse();
+			//具体处理函数在DealWebservice中
+			returnMessage = DealWebservice.dealUploadBuyList(detail,cailist);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "IOException";
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			returnMessage = "XmlPullParserException";
+		}
+		
+		return returnMessage;
+	}
 }

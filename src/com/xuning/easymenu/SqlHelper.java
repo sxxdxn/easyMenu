@@ -105,4 +105,26 @@ public class SqlHelper {
 		}
 		db.close();
 	}
+	
+	public static void insertBuyList(ListModel list){
+		
+		SQLiteDatabase db = createOrOpenDatabase();
+
+			StringBuilder sql = new StringBuilder("insert into buylist values(");
+			sql.append(list.getId()+",");
+			sql.append(list.getUserId()+",");
+			sql.append(list.getTotalPrice()+")");
+			
+			// ‰≥ˆ≤‚ ‘
+			System.out.println(sql.toString());
+			
+			try{
+				db.execSQL(sql.toString());
+				//db.close();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		db.close();
+	}
 }
