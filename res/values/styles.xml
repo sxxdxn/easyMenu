@@ -17,4 +17,9 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style parent="@android:style/TextAppearance" name="normalText">
+        <item name="android:textColor">#444</item> 
+        <item name="android:textSize">14sp</item>
+    </style>
+    
 </resources>
